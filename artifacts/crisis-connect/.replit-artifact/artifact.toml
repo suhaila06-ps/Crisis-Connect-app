@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "CrisisConnect"
+version = "1.0.0"
+id = "artifacts/crisis-connect"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20999
+
+[services.development]
+run = "pnpm --filter @workspace/crisis-connect run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/crisis-connect", "run", "build" ]
+publicDir = "artifacts/crisis-connect/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20999"
+BASE_PATH = "/"

@@ -1,0 +1,169 @@
+Build a simple but fully working full-stack web application called "CrisisConnect" for hospitality emergency response coordination.
+
+## 🧠 CORE IDEA
+The system allows:
+- Guests or staff to report emergencies instantly
+- Staff to view and manage alerts in real time
+- Automatic synchronization of crisis information
+- Simulated emergency services notification
+
+---
+
+## 🧱 TECH STACK (KEEP IT SIMPLE)
+Frontend:
+- HTML, CSS, JavaScript (no frameworks OR use simple React if easier)
+
+Backend:
+- Node.js with Express
+
+Database:
+- Use in-memory storage (array) OR simple JSON file (no complex DB needed)
+
+Realtime:
+- Use WebSockets (Socket.io) for live updates
+
+---
+
+## ✨ FEATURES
+
+### 1. USER ROLES (NO LOGIN NEEDED, SIMPLE SELECT)
+- Guest
+- Staff
+- Admin
+
+Dropdown on homepage to choose role.
+
+---
+
+### 2. EMERGENCY REPORTING (GUEST/STAFF SIDE)
+Form with:
+- Name
+- Room Number / Location
+- Emergency Type (Fire, Medical, Security, Other)
+- Description
+- Button: 🚨 "Send Alert"
+
+When submitted:
+- Send data to backend
+- Broadcast to all staff dashboards instantly
+
+---
+
+### 3. LIVE ALERT DASHBOARD (STAFF/ADMIN SIDE)
+Display:
+- List of active emergencies
+- Each alert card shows:
+  - Name
+  - Location
+  - Emergency type
+  - Time
+  - Status (Pending / Responding / Resolved)
+
+Buttons:
+- "Mark as Responding"
+- "Resolve"
+
+Updates must reflect in real-time using Socket.io.
+
+---
+
+### 4. CRISIS STATUS TRACKING
+Each alert has status:
+- Pending
+- In Progress
+- Resolved
+
+Color coding:
+- Red = Pending
+- Orange = In Progress
+- Green = Resolved
+
+---
+
+### 5. SIMULATED EMERGENCY SERVICE NOTIFICATION
+When a new alert is created:
+- Log message in backend:
+  "🚑 Emergency services notified for [type] at [location]"
+
+(Optional: show toast notification in UI)
+
+---
+
+### 6. SIMPLE UI DESIGN
+- Clean dashboard layout
+- Mobile responsive
+- Use basic CSS or Tailwind (if easier)
+- Use cards for alerts
+
+---
+
+## 📂 PROJECT STRUCTURE
+
+/client
+  index.html
+  style.css
+  script.js
+
+/server
+  server.js
+
+---
+
+## 🔌 BACKEND REQUIREMENTS (Express + Socket.io)
+- Endpoint: POST /alert → create new alert
+- Endpoint: GET /alerts → fetch all alerts
+- Endpoint: PUT /alert/:id → update status
+
+- Store alerts in array:
+  {
+    id,
+    name,
+    location,
+    type,
+    description,
+    status,
+    timestamp
+  }
+
+- Emit events:
+  - "newAlert"
+  - "updateAlert"
+
+---
+
+## 🌐 FRONTEND REQUIREMENTS
+- Role selection screen
+- Conditional rendering:
+  - Guest view → Alert form
+  - Staff/Admin view → Dashboard
+
+- Connect to backend using:
+  fetch() for API
+  Socket.io client for real-time updates
+
+---
+
+## ⚡ BONUS 
+- Play alert sound when new emergency arrives
+- Show "Total Active Emergencies" count
+- Add filter by emergency type
+>add dark mode button also
+---
+
+## ▶️ RUNNING INSTRUCTIONS
+- Install dependencies: express, socket.io
+- Start server using: node server.js
+- Serve frontend using express static OR simple live server
+
+---
+
+## 🎯 OUTPUT EXPECTATION
+- Fully working app
+- Can:
+  1. Send emergency
+  2. See it instantly on dashboard
+  3. Update status in real-time
+
+Keep the code clean, commented, and beginner-friendly.
+
+DO NOT OVERCOMPLICATE. PRIORITIZE WORKING PROTOTYPE.

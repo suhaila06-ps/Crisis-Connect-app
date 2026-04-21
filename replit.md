@@ -16,6 +16,11 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Artifacts
+
+- **crisis-connect** (`/`) — CrisisConnect: real-time hospitality emergency response coordinator. Roles (Guest/Staff/Admin) selected from homepage, stored in localStorage. Uses React Query polling (3s) for live updates, WebAudio beep + toast on new alerts, dark mode via next-themes.
+- **api-server** (`/api`) — Express API. In-memory alert store seeded with 3 sample alerts. Endpoints: `GET/POST /api/alerts`, `PUT /api/alerts/:id`, `GET /api/alerts/stats`.
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages
