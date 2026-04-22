@@ -10,6 +10,7 @@ import { ShieldCheck, Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { RequestsPanel } from "@/components/requests-panel";
 
 export function Dashboard() {
   const { role } = useRole();
@@ -135,6 +136,8 @@ export function Dashboard() {
           ))}
         </div>
       )}
+
+      <RequestsPanel />
     </div>
   );
 }

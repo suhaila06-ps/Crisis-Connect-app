@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { RequestsPanel } from "@/components/requests-panel";
 
 export function Admin() {
   const { role } = useRole();
@@ -75,8 +76,9 @@ export function Admin() {
       <StatsStrip stats={stats} />
 
       <Tabs defaultValue="active" className="space-y-6">
-        <TabsList className="grid w-full sm:w-auto grid-cols-3">
+        <TabsList className="grid w-full sm:w-auto grid-cols-4">
           <TabsTrigger value="active">Active Incidents</TabsTrigger>
+          <TabsTrigger value="requests">Service Requests</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
@@ -97,6 +99,10 @@ export function Admin() {
               {activeAlerts.map(alert => <AlertCard key={alert.id} alert={alert} />)}
             </div>
           )}
+        </TabsContent>
+
+        <TabsContent value="requests" className="space-y-4">
+          <RequestsPanel />
         </TabsContent>
 
         <TabsContent value="history" className="space-y-4">

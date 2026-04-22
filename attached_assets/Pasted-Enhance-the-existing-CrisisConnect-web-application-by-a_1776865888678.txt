@@ -1,0 +1,205 @@
+Enhance the existing CrisisConnect web application by adding advanced hospitality support and emergency experience features.
+
+🧠 OBJECTIVE
+
+Upgrade the current system to include:
+
+Smart staff calling system
+AI-powered concierge chat
+Real-time emergency awareness (global alerts)
+Safe exit guidance
+Premium, stress-friendly UX
+
+⚠️ IMPORTANT:
+
+DO NOT break existing functionality
+KEEP current alert system intact
+EXTEND the system cleanly
+🧱 EXISTING SYSTEM CONTEXT
+
+The app already supports:
+
+Emergency alert creation
+Real-time dashboard (Socket.io)
+Status updates (Pending / In Progress / Resolved)
+
+You must build ON TOP of this.
+
+✨ NEW FEATURES TO ADD
+1. 🔘 SMART “CALL STAFF” BUTTON (GLOBAL UI)
+Frontend
+Add floating button (bottom-right corner)
+Always visible across all pages
+On Click → Open Panel
+
+Options:
+
+🚨 Emergency (reuse existing alert form)
+🧑‍💼 Call Staff
+🛎️ Request Service
+Behavior
+Slide-up modal/panel
+One-tap selection
+Show loading text:
+“Connecting to staff…”
+Backend
+New Endpoint
+POST /request
+Payload
+{
+  "type": "staff | service",
+  "location": "string",
+  "message": "optional"
+}
+Logic
+Store request in memory array
+Emit Socket event:
+"newRequest"
+2. 💬 AI CONCIERGE CHAT
+Frontend
+Add chat UI (WhatsApp-style)
+Accessible via button or tab
+UI Features
+Message bubbles
+Input field
+Auto scroll
+Backend
+Endpoint
+POST /chat
+MVP Logic (NO AI REQUIRED)
+
+Use keyword-based responses:
+
+Examples:
+
+"breakfast" → "Breakfast is at 7 AM"
+"spa" → "Spa is on floor 2"
+"wifi" → "WiFi password is available at reception"
+
+Fallback:
+
+"Our staff will assist you shortly."
+Optional Advanced
+Plug into LLM API later
+3. 🚨 REAL-TIME GLOBAL EMERGENCY BANNER (CORE FEATURE)
+Frontend
+Add fixed top banner (HIGH PRIORITY)
+Red background
+Full width
+Example:
+🚨 Fire on Floor 2 — Please evacuate calmly
+Behavior
+Triggered when ANY emergency alert is created
+Visible to ALL users (guest, staff, admin)
+Cannot be missed
+Backend Changes
+
+When alert is created:
+
+Emit new event:
+"emergencyBroadcast"
+Payload
+{
+  "type": "Fire",
+  "location": "Floor 2",
+  "message": "Evacuate calmly"
+}
+4. 🧭 SAFE EXIT GUIDANCE
+Frontend
+When emergency is active:
+Show guidance box or modal
+MVP Content:
+“Use nearest staircase”
+“Do not use elevators”
+“Exit via main lobby”
+Backend (Optional)
+GET /evacuation
+
+Returns:
+
+{
+  "instructions": [
+    "Use nearest staircase",
+    "Exit via main lobby"
+  ]
+}
+5. 📊 ENHANCED DASHBOARD (STAFF/ADMIN)
+Additions
+Show:
+Total Active Emergencies
+Total Requests (staff/service)
+New Section:
+“Service Requests”
+Display staff/service calls
+6. 🔔 REAL-TIME IMPROVEMENTS
+Add Socket Events
+"newRequest"
+"emergencyBroadcast"
+Frontend Must:
+Listen and update UI instantly
+Play alert sound on:
+New emergency
+New request
+7. 🌙 DARK MODE
+Frontend
+Add toggle button (top-right)
+Behavior
+Switch between light/dark themes
+Store preference in localStorage
+8. 🎨 UX IMPROVEMENTS (IMPORTANT)
+
+Follow these principles:
+
+One-tap actions
+Large buttons (mobile-friendly)
+High contrast colors
+Fast UI (no delays)
+Smooth but lightweight animations
+📂 UPDATED PROJECT STRUCTURE
+/client
+  index.html
+  style.css
+  script.js
+
+/server
+  server.js
+
+(No major restructuring required)
+
+🔌 BACKEND UPDATES SUMMARY
+
+Add:
+
+New Data Structures
+let requests = [];
+New Routes
+POST /request
+POST /chat
+(optional) GET /evacuation
+New Socket Events
+newRequest
+emergencyBroadcast
+🌐 FRONTEND UPDATES SUMMARY
+
+Add:
+
+Floating action button
+Request panel modal
+Chat UI
+Emergency banner
+Evacuation instructions
+Dark mode toggle
+🧪 TEST SCENARIOS
+Send emergency → banner appears instantly everywhere
+Click “Call Staff” → request visible on dashboard
+Chat responds correctly to keywords
+Dashboard updates in real-time
+Dark mode persists after refresh
+🎯 FINAL EXPECTATION
+
+The upgraded app should:
+
+Feel like a premium hotel emergency system
+Work smoothly on mobile
+Handle emergencies clearly and instantly
+Provide both safety + service experience

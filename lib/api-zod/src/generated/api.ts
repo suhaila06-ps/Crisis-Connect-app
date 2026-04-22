@@ -69,6 +69,64 @@ export const UpdateAlertStatusResponse = zod.object({
 });
 
 /**
+ * @summary List service / staff requests
+ */
+export const ListRequestsResponseItem = zod.object({
+  id: zod.string(),
+  type: zod.enum(["staff", "service"]),
+  location: zod.string(),
+  message: zod.string(),
+  status: zod.enum(["pending", "resolved"]),
+  timestamp: zod.coerce.date(),
+});
+export const ListRequestsResponse = zod.array(ListRequestsResponseItem);
+
+/**
+ * @summary Create a staff or service request
+ */
+
+export const CreateRequestBody = zod.object({
+  type: zod.enum(["staff", "service"]),
+  location: zod.string().min(1),
+  message: zod.string(),
+});
+
+/**
+ * @summary Mark a request as resolved
+ */
+export const ResolveRequestParams = zod.object({
+  id: zod.coerce.string(),
+});
+
+export const ResolveRequestResponse = zod.object({
+  id: zod.string(),
+  type: zod.enum(["staff", "service"]),
+  location: zod.string(),
+  message: zod.string(),
+  status: zod.enum(["pending", "resolved"]),
+  timestamp: zod.coerce.date(),
+});
+
+/**
+ * @summary Send a concierge chat message
+ */
+
+export const PostChatBody = zod.object({
+  message: zod.string().min(1),
+});
+
+export const PostChatResponse = zod.object({
+  reply: zod.string(),
+});
+
+/**
+ * @summary Safe-exit instructions
+ */
+export const GetEvacuationResponse = zod.object({
+  instructions: zod.array(zod.string()),
+});
+
+/**
  * @summary Get aggregated alert statistics
  */
 export const GetAlertStatsResponse = zod.object({

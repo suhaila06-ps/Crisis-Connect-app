@@ -12,6 +12,12 @@ tags:
     description: Health operations
   - name: alerts
     description: Emergency alert operations
+  - name: requests
+    description: Service & staff request operations
+  - name: chat
+    description: Concierge chat
+  - name: evacuation
+    description: Safe-exit guidance
 paths:
   /healthz:
     get:
@@ -91,6 +97,85 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Alert"
+  /requests:
+    get:
+      operationId: listRequests
+      tags: [requests]
+      summary: List service / staff requests
+      responses:
+        "200":
+          description: List
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ServiceRequest"
+    post:
+      operationId: createRequest
+      tags: [requests]
+      summary: Create a staff or service request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRequestInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceRequest"
+  /requests/{id}/resolve:
+    post:
+      operationId: resolveRequest
+      tags: [requests]
+      summary: Mark a request as resolved
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resolved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceRequest"
+  /chat:
+    post:
+      operationId: postChat
+      tags: [chat]
+      summary: Send a concierge chat message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatInput"
+      responses:
+        "200":
+          description: Reply
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatReply"
+  /evacuation:
+    get:
+      operationId: getEvacuation
+      tags: [evacuation]
+      summary: Safe-exit instructions
+      responses:
+        "200":
+          description: Instructions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvacuationInstructions"
   /alerts/stats:
     get:
       operationId: getAlertStats
@@ -162,6 +247,59 @@ components:
         status:
           $ref: "#/components/schemas/AlertStatus"
       required: [status]
+    RequestType:
+      type: string
+      enum: [staff, service]
+    ServiceRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/RequestType"
+        location:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+          enum: [pending, resolved]
+        timestamp:
+          type: string
+          format: date-time
+      required: [id, type, location, message, status, timestamp]
+    CreateRequestInput:
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/RequestType"
+        location:
+          type: string
+          minLength: 1
+        message:
+          type: string
+      required: [type, location, message]
+    ChatInput:
+      type: object
+      properties:
+        message:
+          type: string
+          minLength: 1
+      required: [message]
+    ChatReply:
+      type: object
+      properties:
+        reply:
+          type: string
+      required: [reply]
+    EvacuationInstructions:
+      type: object
+      properties:
+        instructions:
+          type: array
+          items:
+            type: string
+      required: [instructions]
     AlertStats:
       type: object
       properties:

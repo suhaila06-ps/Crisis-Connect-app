@@ -69,6 +69,50 @@ export interface UpdateAlertInput {
   status: AlertStatus;
 }
 
+export type RequestType = (typeof RequestType)[keyof typeof RequestType];
+
+export const RequestType = {
+  staff: "staff",
+  service: "service",
+} as const;
+
+export type ServiceRequestStatus =
+  (typeof ServiceRequestStatus)[keyof typeof ServiceRequestStatus];
+
+export const ServiceRequestStatus = {
+  pending: "pending",
+  resolved: "resolved",
+} as const;
+
+export interface ServiceRequest {
+  id: string;
+  type: RequestType;
+  location: string;
+  message: string;
+  status: ServiceRequestStatus;
+  timestamp: string;
+}
+
+export interface CreateRequestInput {
+  type: RequestType;
+  /** @minLength 1 */
+  location: string;
+  message: string;
+}
+
+export interface ChatInput {
+  /** @minLength 1 */
+  message: string;
+}
+
+export interface ChatReply {
+  reply: string;
+}
+
+export interface EvacuationInstructions {
+  instructions: string[];
+}
+
 export type AlertStatsByType = {
   fire: number;
   medical: number;
